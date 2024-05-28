@@ -1,4 +1,3 @@
-// drop_tcp_port_4040.c
 #include <linux/bpf.h>
 #include <linux/if_ether.h>
 #include <linux/ip.h>
@@ -14,6 +13,10 @@ int drop_tcp_4040(struct xdp_md *ctx) {
     struct iphdr *ip;
     struct tcphdr *tcp;
 
+    // first we need to check for the packets to be tcp packets
+
+    // validation starts :
+
     // Check if packet is long enough to contain Ethernet, IP, and TCP headers
     if (data + sizeof(*eth) + sizeof(*ip) + sizeof(*tcp) > data_end)
         return XDP_PASS;
@@ -28,6 +31,8 @@ int drop_tcp_4040(struct xdp_md *ctx) {
     // Check if packet is long enough to contain TCP header
     if ((void *)tcp + sizeof(*tcp) > data_end)
         return XDP_PASS;
+
+    // validation ends :
 
     // Drop packets destined to port 4040
     if (tcp->dest == htons(4040))
