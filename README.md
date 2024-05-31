@@ -36,3 +36,4 @@ fmt.Println("Hello")
     provide a very efficient way of managing message query without the need for external tools like RabbitMQ.
 3. It creates simultaneous 4 go routines .
 4. It is used to make buffered channel with buffer capacity = 10.
+5. "Here1" didn't get printed because the program along with the go routines terminated intantly and function is sent to the channel . To resolve this , we can use sync.WaitGroup for the go routines which can prevent the program from terminating before all the operation have completed.
